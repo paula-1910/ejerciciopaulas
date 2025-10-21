@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import List
 
-# ----------------------------
 # Clase Cliente
-# ----------------------------
+
 class Cliente:
     def __init__(self, id_cliente: int, nombre: str, email: str, puntos_fidelidad: int = 0):
         self.id_cliente = id_cliente
@@ -19,9 +18,7 @@ class Cliente:
         return f"Cliente({self.nombre}, {self.email}, Puntos: {self.puntos_fidelidad})"
 
 
-# ----------------------------
 # Clase Empleado
-# ----------------------------
 class Empleado:
     def __init__(self, id_empleado: int, nombre: str, rol: str, turno: str):
         self.id_empleado = id_empleado
@@ -37,9 +34,7 @@ class Empleado:
         return f"Empleado({self.nombre}, Rol: {self.rol}, Turno: {self.turno})"
 
 
-# ----------------------------
 # Clase Producto
-# ----------------------------
 class Producto:
     def __init__(self, id_producto: int, nombre: str, tipo: str, precio: float):
         self.id_producto = id_producto
@@ -51,9 +46,8 @@ class Producto:
         return f"Producto({self.nombre}, {self.tipo}, {self.precio:.2f}€)"
 
 
-# ----------------------------
 # Clase intermedia PedidoProducto (N:M)
-# ----------------------------
+
 class PedidoProducto:
     def __init__(self, producto: Producto, cantidad: int):
         self.producto = producto
@@ -66,9 +60,7 @@ class PedidoProducto:
         return f"{self.producto.nombre} x{self.cantidad} = {self.subtotal():.2f}€"
 
 
-# ----------------------------
 # Clase Pedido
-# ----------------------------
 class Pedido:
     def __init__(self, id_pedido: int, cliente: Cliente, empleado: Empleado):
         self.id_pedido = id_pedido
@@ -98,9 +90,8 @@ class Pedido:
         )
 
 
-# ----------------------------
 # Ejemplo de uso
-# ----------------------------
+
 if __name__ == "__main__":
     # Crear objetos
     cliente1 = Cliente(1, "Laura Gómez", "laura@example.com", 120)
