@@ -1,9 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-# ====================================================
 # PRÁCTICA AVANZADA: SMARTCOFFEE MULTICAFETERÍAS
-# ====================================================
 
 def practica_smartcoffee_avanzada():
     # Crear ubicaciones (3 cafeterías + 5 clientes)
