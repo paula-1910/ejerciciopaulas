@@ -1,15 +1,3 @@
-# smartcoffee_full_practice.py
-# Versión extendida del script SmartCoffee para cubrir:
-# - carga/filtrado de pedidos por período
-# - construir grafo solo con clientes activos
-# - Bellman-Ford por cafetería (rutas, costes, detección de ciclos negativos)
-# - Floyd-Warshall (matriz global de distancias)
-# - análisis: cliente más alejado, cliente con más pedidos, pares inusuales (z-score)
-# - sugerencias para reorganizar rutas / posible nuevo punto de entrega
-#
-# Requiere: networkx, matplotlib, numpy, scipy (opcional)
-# Ejecutar: python smartcoffee_full_practice.py
-
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
@@ -20,9 +8,7 @@ import math
 
 random.seed(42)
 
-# -------------------------
 # Datos base (tus nodos/edges originales)
-# -------------------------
 cafeterias = ["Cafetería Norte", "Cafetería Centro", "Cafetería Sur"]
 clientes = ["Cliente A", "Cliente B", "Cliente C", "Cliente D", "Cliente E", "Cliente F"]
 
@@ -50,9 +36,7 @@ def construir_grafo_base(rutas):
         G.add_edge(v, u, weight=float(w))  # añadir opuesto con mismo peso (simétrico)
     return G
 
-# -------------------------
 # 1) Simular / cargar pedidos y filtrar por periodo
-# -------------------------
 def simular_pedidos(num_min=5, num_max=10, start_dt=None):
     """
     Genera pedidos con timestamps para la demo.
@@ -76,9 +60,7 @@ def simular_pedidos(num_min=5, num_max=10, start_dt=None):
 def filtrar_pedidos_periodo(pedidos, start_dt, end_dt):
     return [p for p in pedidos if start_dt <= p["datetime"] < end_dt]
 
-# -------------------------
 # 2) Construir grafo 'activo' con solo clientes del periodo
-# -------------------------
 def grafo_con_clientes_activos(G_base, pedidos_periodo):
     clientes_activos = sorted({p["cliente"] for p in pedidos_periodo})
     # Tomamos todos los cafeterías + clientes activos como vértices; mantenemos aristas entre ellos si existen
@@ -94,9 +76,7 @@ def grafo_con_clientes_activos(G_base, pedidos_periodo):
             G.add_edge(u, v, **data)
     return G, clientes_activos
 
-# -------------------------
 # 3) Bellman-Ford por cafetería (rutas, costes, detección de ciclos negativos)
-# -------------------------
 def bellman_ford_por_cafeteria(G_activo, cafeterias, clientes_activos):
     """
     Para cada cafetería, calcula Bellman-Ford (rutas y costes) hacia cada cliente activo.
@@ -137,17 +117,14 @@ def bellman_ford_por_cafeteria(G_activo, cafeterias, clientes_activos):
             resultados[cafe][cl] = {"distancia": d, "ruta": ruta}
     return resultados, sorted(list(cafes_con_ciclo_negativo))
 
-# -------------------------
 # 4) Floyd-Warshall global (matriz de distancias entre todas ubicaciones activas)
-# -------------------------
 def matriz_floyd_warshall(G_activo):
     # devuelve un dict-of-dict con distancias mínimas (NetworkX floyd_warshall)
     D = dict(nx.floyd_warshall(G_activo, weight="weight"))
     return D
 
-# -------------------------
+
 # 5) Análisis global y sugerencias
-# -------------------------
 def analisis_y_sugerencias(D_matrix, pedidos_periodo, clientes_activos):
     """
     - Cliente más alejado (media/distancia mínima desde cafeterías)
@@ -230,9 +207,7 @@ def analisis_y_sugerencias(D_matrix, pedidos_periodo, clientes_activos):
         "dist_min_desde_cafes": dist_min_desde_cafes
     }
 
-# -------------------------
 # 6) Visualización (grafo + rutas óptimas por cafetería)
-# -------------------------
 def dibujar_resultados(G_full, rutas_optimizadas, G_activo):
     pos = nx.spring_layout(G_full, seed=42)
     plt.figure(figsize=(11,8))
@@ -258,9 +233,7 @@ def dibujar_resultados(G_full, rutas_optimizadas, G_activo):
     plt.axis("off")
     plt.show()
 
-# -------------------------
 # 7) Flujo principal que une todo
-# -------------------------
 def practica_smartcoffee_pedidos_avanzada():
     print("\n=== SmartCoffee: Optimización avanzada con pedidos reales (simulados) ===\n")
     # construir grafo base
@@ -385,8 +358,6 @@ def practica_smartcoffee_pedidos_avanzada():
     # Dibujar resultados
     dibujar_resultados(G_base, rutas_optimizadas, G_activo)
 
-# -------------------------
 # MAIN
-# -------------------------
 if __name__ == "__main__":
     practica_smartcoffee_pedidos_avanzada()
